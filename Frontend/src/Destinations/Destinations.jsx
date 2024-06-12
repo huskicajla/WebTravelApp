@@ -8,7 +8,9 @@ function Destinations() {
   return (
     <>
         <Navbar />
-        <div className="min-h-screen">
+        <div 
+          className="min-h-screen"
+        >
             <Destination />
         </div>
         <Footer />

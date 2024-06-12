@@ -5,14 +5,26 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-import list from "../../public/list.json";
+import axios from "axios";
 
 import Cards from "./Cards";
 
 function Highlight() {
-const filterData = list.filter(
-    (data) => data.category === "disc" 
-);
+  const[destination, setDestination] = useState([]);
+  useEffect(() => {
+      const getDestination = async () => {
+          try{
+              const res = await axios.get("http://localhost:4001/destination");
+              const data = res.data.filter((data) => data.category === "disc");
+              console.log(data);
+              setDestination(data);
+          } catch (error) {
+              console.log(error);
+          }
+      };
+      getDestination();
+  }, []);
+
 
 var settings = {
     dots: true,
@@ -58,7 +70,7 @@ var settings = {
 
     <div>
       <Slider {...settings}>
-        {filterData.map((item) => (
+        {destination.map((item) => (
           <Cards item={item} key={item.id} />
         ))}
       </Slider>

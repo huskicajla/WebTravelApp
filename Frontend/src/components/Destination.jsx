@@ -1,11 +1,24 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import list from "../../public/list.json";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import Cards from "./Cards";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 function Destination() {
-    console.log(list);
+    const[destination, setDestination] = useState([]);
+    useEffect(() => {
+        const getDestination = async () => {
+            try{
+                const res = await axios.get("http://localhost:4001/destination");
+                console.log(res.data);
+                setDestination(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getDestination();
+    }, []);
   return (
     <>
         <div 
@@ -27,9 +40,9 @@ function Destination() {
                 </Link>
             </div>
             
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3">
                 {
-                    list.map((item) => (
+                    destination.map((item) => (
                         <Cards key={item.id} item={item} />
                     ))
                 }
