@@ -55,7 +55,7 @@ function Navbar() {
             </li>
             <li>
                 <a href="/user-dashboard/trip-signup">
-                    Booked Trips
+                    Book New Trip
                 </a>
             </li>
         </>

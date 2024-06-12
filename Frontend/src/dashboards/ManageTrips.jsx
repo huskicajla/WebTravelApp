@@ -166,7 +166,7 @@ const DestinationManagement = () => {
             Image:
             <input type="text" name="image" value={editedDestination.image || ''} onChange={handleInputChange} style={styles.input} required />
           </label>
-          <button type="submit" style={styles.submitButton}>{isAddingDestination ? "Dodaj novu destinaciju" : "Sačuvaj izmjene"}</button>
+          <button type="submit" style={styles.submitButton}>{isAddingDestination ? "Add new destination" : "Save"}</button>
         </form>
       </Modal>
     </div>
@@ -221,7 +221,7 @@ const styles = {
   },
   submitButton: {
     padding: '10px 20px',
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#e91e63',
     color: 'white',
     border: 'none',
     borderRadius: '4px',
@@ -229,7 +229,7 @@ const styles = {
   },
   addButton: {
     padding: '10px 20px',
-    backgroundColor: '#f0ad4e',
+    backgroundColor: '#e91e63',
     color: 'white',
     border: 'none',
     borderRadius: '4px',

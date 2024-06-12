@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./admin.navbar";
@@ -8,7 +9,6 @@ const UserManagement = () => {
   const [editingUserId, setEditingUserId] = useState(null);
   const [editedUser, setEditedUser] = useState({});
   const [isAddingUser, setIsAddingUser] = useState(false);
-  const [showOriginalPasswords, setShowOriginalPasswords] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -61,7 +61,7 @@ const UserManagement = () => {
       const newUser = {
         fullname: editedUser.fullname,
         email: editedUser.email,
-        password: editedUser.originalPassword, 
+        password: editedUser.originalPassword,
         isAdmin: editedUser.isAdmin || false,
         isActive: editedUser.isActive || true,
       };
@@ -76,10 +76,6 @@ const UserManagement = () => {
     }
   };
 
-  const toggleShowOriginalPasswords = () => {
-    setShowOriginalPasswords(!showOriginalPasswords);
-  };
-
   const handleAddUserClick = () => {
     setEditedUser({});
     setEditingUserId(null);
@@ -88,78 +84,105 @@ const UserManagement = () => {
 
   return (
     <>
-    <Navbar/>
-    <div style={styles.container}>
-      <button onClick={toggleShowOriginalPasswords} style={styles.toggleButton}>
-        {showOriginalPasswords ? "Hide original password" : "Show original password"}
-      </button>
-      <button onClick={handleAddUserClick} style={styles.addButton}>
-        Add user
-      </button>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Fullname</th>
-            <th>Email</th>
-            <th>Is admin?</th>
-            <th>Is active?</th>
-            <th>Password</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <React.Fragment key={user._id}>
-              <tr>
-                <td style={styles.cell}>{user.id}</td>
-                <td style={styles.cell}>{user.fullname}</td>
-                <td style={styles.cell}>{user.email}</td>
-                <td style={styles.cell}>{user.isAdmin ? "Yes" : "No"}</td>
-                <td style={styles.cell}>{user.isActive ? "Yes" : "No"}</td>
-                <td style={styles.cell}>
-                  {showOriginalPasswords ? user.originalPassword : user.hashedPassword}
-                </td>
-                <td style={styles.cell}>
-                  <button style={styles.editButton} onClick={() => handleEditClick(user._id)}>EDIT</button>
-                </td>
-              </tr>
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
+      <Navbar />
+      <div style={styles.container}>
+        <button onClick={handleAddUserClick} style={styles.addButton}>
+          Add user
+        </button>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Fullname</th>
+              <th>Email</th>
+              <th>Is admin?</th>
+              <th>Is active?</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <React.Fragment key={user._id}>
+                <tr>
+                  <td style={styles.cell}>{user._id}</td>
+                  <td style={styles.cell}>{user.fullname}</td>
+                  <td style={styles.cell}>{user.email}</td>
+                  <td style={styles.cell}>{user.isAdmin ? "Yes" : "No"}</td>
+                  <td style={styles.cell}>{user.isActive ? "Yes" : "No"}</td>
+                  <td style={styles.cell}>
+                    <button style={styles.editButton} onClick={() => handleEditClick(user._id)}>EDIT</button>
+                  </td>
+                </tr>
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
 
-      {/* Edit/Add form */}
-      {(editingUserId || isAddingUser) && (
-        <div style={styles.editFormContainer}>
-          <h2>{isAddingUser ? "Add new user" : "Edit user"}</h2>
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <label style={styles.label}>
-              Fullname:
-              <input type="text" name="fullname" value={editedUser.fullname || ''} onChange={handleInputChange} style={styles.input} required />
-            </label>
-            <label style={styles.label}>
-              Email:
-              <input type="email" name="email" value={editedUser.email || ''} onChange={handleInputChange} style={styles.input} required />
-            </label>
-            <label style={styles.label}>
-              Is admin?
-              <input type="checkbox" name="isAdmin" checked={editedUser.isAdmin || false} onChange={handleInputChange} style={styles.checkbox} />
-            </label>
-            <label style={styles.label}>
-              Is active?
-              <input type="checkbox" name="isActive" checked={editedUser.isActive || false} onChange={handleInputChange} style={styles.checkbox} />
-            </label>
-            <label style={styles.label}>
-              Password:
-              <input type="password" name="originalPassword" value={editedUser.originalPassword || ''} onChange={handleInputChange} style={styles.input} required />
-            </label>
-            <button type="submit" style={styles.submitButton}>{isAddingUser ? "Add user" : "Save"}</button>
-          </form>
-        </div>
-      )}
-    </div>
-    <Footer/>
+        {(editingUserId || isAddingUser) && (
+          <div style={styles.editFormContainer}>
+            <h2 style={styles.formTitle}>{isAddingUser ? "Add new user" : "Edit user"}</h2>
+            <form onSubmit={handleSubmit} style={styles.form}>
+              <div style={styles.formGroup}>
+                <label style={styles.inlineLabel}>Fullname:</label>
+                <input
+                  type="text"
+                  name="fullname"
+                  value={editedUser.fullname || ''}
+                  onChange={handleInputChange}
+                  style={styles.inlineInput}
+                  required
+                />
+              </div>
+              <div style={styles.formGroup}>
+                <label style={styles.inlineLabel}>Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={editedUser.email || ''}
+                  onChange={handleInputChange}
+                  style={styles.inlineInput}
+                  required
+                />
+              </div>
+              <div style={styles.formGroup}>
+                <label style={styles.inlineLabel}>Password:</label>
+                <input
+                  type="password"
+                  name="originalPassword"
+                  value={editedUser.originalPassword || ''}
+                  onChange={handleInputChange}
+                  style={styles.inlineInput}
+                  required
+                />
+              </div>
+              <div style={styles.formGroupCheckbox}>
+                <label style={styles.checkboxLabel}>Is admin?</label>
+                <input
+                  type="checkbox"
+                  name="isAdmin"
+                  checked={editedUser.isAdmin || false}
+                  onChange={handleInputChange}
+                  style={styles.checkbox}
+                />
+              </div>
+              <div style={styles.formGroupCheckbox}>
+                <label style={styles.checkboxLabel}>Is active?</label>
+                <input
+                  type="checkbox"
+                  name="isActive"
+                  checked={editedUser.isActive || false}
+                  onChange={handleInputChange}
+                  style={styles.checkbox}
+                />
+              </div>
+              <button type="submit" style={styles.submitButton}>
+                {isAddingUser ? "Add user" : "Save"}
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+      <Footer />
     </>
   );
 };
@@ -185,51 +208,67 @@ const styles = {
     cursor: 'pointer',
   },
   editFormContainer: {
-    marginTop: '20px',
+    marginTop: '40px',
+    backgroundColor: '#f9f9f9',
+    padding: '20px',
+    borderRadius: '8px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    maxWidth: '400px',
+    marginLeft: '0',
+  },
+  formTitle: {
+    marginBottom: '20px',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
   },
-  label: {
+  formGroup: {
+    display: 'flex',
+    alignItems: 'center',
     marginBottom: '10px',
   },
-  input: {
+  inlineLabel: {
+    minWidth: '120px',
+    textAlign: 'right',
+    marginRight: '10px',
+  },
+  inlineInput: {
+    flex: '1',
     padding: '8px',
     borderRadius: '4px',
     border: '1px solid #ccc',
-    width: '100%',
-    marginTop: '5px',
+  },
+  formGroupCheckbox: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+  checkboxLabel: {
+    minWidth: '120px',
+    textAlign: 'right',
+    marginRight: '10px',
   },
   checkbox: {
     marginLeft: '10px',
   },
   submitButton: {
-    padding: '10px 20px',
-    backgroundColor: '#4CAF50',
+    padding: '8px 16px',
+    backgroundColor: '#e91e63',
     color: 'white',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-  },
-  toggleButton: {
-    padding: '10px 20px',
-    backgroundColor: '#008CBA',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginBottom: '20px',
+    alignSelf: 'flex-end',
   },
   addButton: {
-    padding: '10px 20px',
-    backgroundColor: '#f0ad4e',
+    padding: '8px 16px',
+    backgroundColor: '#e91e63',
     color: 'white',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
     marginBottom: '20px',
-    marginLeft: '10px',
   },
 };
 
